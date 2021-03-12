@@ -20,6 +20,18 @@ class BOM extends Component {
     this.handleClick = () => {
       this.props.handleAddPart(this.props.id);
     };
+    this.handleRemovePart = (itemId) => {
+      API.delete(`bom/${this.props.id}/bomitem/${itemId}`);
+      let newBomItems = this.state.bomItems;
+      const length = newBomItems.length;
+      for (let i = 0; i < length; i++) {
+        if (newBomItems[i].id === itemId) {
+          newBomItems.splice(i, 1);
+          this.setState({ bomItems: newBomItems });
+          return;
+        }
+      }
+    };
   }
 
   // Get list of BOM items from API
@@ -38,15 +50,17 @@ class BOM extends Component {
           {this.state.bomItems.map((item, key) => (
             <ListGroup.Item key={key}>
               <Item
+                id={item.id}
                 part={item.specific_part}
                 quantity={item.quantity}
                 cost={item.item_unit_cost}
+                handleRemovePart={this.handleRemovePart}
               />
             </ListGroup.Item>
           ))}
         </ListGroup>
         <Card.Body>
-          <Button onClick={this.handleClick} variant='primary'>
+          <Button onClick={this.handleClick} variant='info'>
             Add New Part
           </Button>
         </Card.Body>

@@ -71,7 +71,6 @@ class App extends Component {
                     id={bom.id}
                     key={key}
                     handleAddPart={this.handleAddPart}
-                    rerender={this.rerender}
                   />
                 );
               })
