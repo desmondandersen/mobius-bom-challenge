@@ -1,5 +1,7 @@
+// Import React
 import React, { Component } from 'react';
 
+// Item component
 class Item extends Component {
   formatPrice(cost) {
     const dollars = cost / 100 > 0 ? Math.floor(cost / 100) : 0;

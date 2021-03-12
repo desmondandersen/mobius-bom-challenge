@@ -1,23 +1,30 @@
+// Import React and libraries
 import React, { Component } from 'react';
-import axios from 'axios';
+import API from '../api';
 
+// Import bootstrap components
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 
+// Import components
 import Item from './Item';
 
-// Product BOM
+// Bill of Materials (BOM) component
 class BOM extends Component {
-  state = { bomItems: [] };
+  constructor(props) {
+    super(props);
+    this.state = {
+      bomItems: [],
+    };
+    this.handleClick = () => {
+      this.props.handleAddPart(this.props.id);
+    };
+  }
 
   // Get list of BOM items from API
   componentDidMount() {
-    const url =
-      'https://5f996efe50d84900163b8a42.mockapi.io/api/v1/bom/' +
-      this.props.id +
-      '/bomitem';
-
-    axios.get(url).then((res) => {
+    API.get(`bom/${this.props.id}/bomitem`).then((res) => {
       const bomItems = res.data;
       this.setState({ bomItems });
     });
@@ -29,7 +36,7 @@ class BOM extends Component {
         <Card.Header>BOM {this.props.id}</Card.Header>
         <ListGroup variant='flush'>
           {this.state.bomItems.map((item, key) => (
-            <ListGroup.Item>
+            <ListGroup.Item key={key}>
               <Item
                 part={item.specific_part}
                 quantity={item.quantity}
@@ -38,6 +45,11 @@ class BOM extends Component {
             </ListGroup.Item>
           ))}
         </ListGroup>
+        <Card.Body>
+          <Button onClick={this.handleClick} variant='primary'>
+            Add New Part
+          </Button>
+        </Card.Body>
       </Card>
     );
   }

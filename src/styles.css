@@ -1,5 +1,5 @@
 .app {
-  margin: 10px 20px;
+  padding: 10px 20px;
 }
 
 .app h1 {
@@ -15,4 +15,5 @@
 
 .bom-card {
   margin: 5px;
+  background-color: rgb(185, 219, 166);
 }
